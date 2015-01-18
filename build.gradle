@@ -1,0 +1,58 @@
+subprojects {
+
+  repositories {
+    mavenCentral()
+    jcenter()
+    
+    maven {
+      url "https://github.com/TkmTwoProjects/tkmtwo-mvn-repo/raw/master/release"
+    }
+    
+  }
+  
+  group = 'com.tkmtwo'
+  version = '1.0.0'
+  
+  ext {
+    
+    //
+    // Dependency Versions
+    //
+    //depVersionAvro = '1.7.7'
+    //depVersionCassandraDriver = '2.1.2'
+    depVersionGuava = '18.0'
+    depVersionHibernateValidator = '5.1.2.Final'
+    depVersionJavaxValidation = "1.1.0.Final"
+    depVersionJodaTime = '2.7'
+    depVersionJunit = '4.12'
+    //depVersionKafka = 'kafka_2.10:0.8.1.1'
+    depVersionLogback = '1.1.2'
+    depVersionServletApi = '3.1.0'
+    depVersionSlf4J = '1.7.10'
+    depVersionSpringFramework = '4.1.4.RELEASE'
+    depVersionSpringRestException = '1.0.1'
+    depVersionSpringSecurity = '3.2.5.RELEASE'
+    depVersionTkmTwoCommon = '1.0.0'
+    //depVersionTkmTwoExhandler = '1.0.0'
+    depVersionTkmTwoTimex = '1.0.3'
+    
+    
+    //
+    // Javadoc Links
+    //
+    javadocLinks = [
+      "http://docs.spring.io/spring/docs/current/javadoc-api/",
+      //"http://fasterxml.github.io/jackson-databind/javadoc/2.3.0/",
+      "http://www.joda.org/joda-time/apidocs/",
+      //"http://avro.apache.org/docs/current/api/java/",
+      "http://docs.oracle.com/javase/7/docs/api/"
+    ] as String[]
+    
+    
+  }
+  
+}
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '2.2.1'
+}

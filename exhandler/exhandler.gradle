@@ -1,0 +1,95 @@
+
+
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'checkstyle'
+apply plugin: 'findbugs'
+
+dependencies {
+  compile "cz.jirutka.spring:spring-rest-exception-handler:${depVersionSpringRestException}"
+  compile "javax.servlet:javax.servlet-api:${depVersionServletApi}"
+  compile "org.springframework.security:spring-security-web:${depVersionSpringSecurity}"
+  compile "org.springframework:spring-webmvc:${depVersionSpringFramework}"
+}
+
+
+
+sourceSets {
+  test {
+    resources {
+      srcDir "${System.env.HOME}/.gradle/resources"
+    }
+  }
+}
+
+
+uploadArchives {
+  repositories {
+    mavenDeployer {
+      repository(url: "file://$buildDir/repo")
+      //repository(url: "file://$rootDir/../tkmtwo-mvn-repo/release")
+    }
+  }
+}
+
+
+configurations {
+  all*.exclude module: 'commons-logging'
+  all*.exclude module: 'log4j'
+}
+
+
+jar {
+  baseName = rootProject.name
+  appendix = project.name
+}
+
+javadoc { 
+  options.author = true
+  options.header = rootProject.name + '-' + project.name
+  options.links(project.ext.javadocLinks)
+  title = rootProject.name + '-' + project.name
+}
+
+
+checkstyle {
+  configFile = new File(rootDir, "config/checkstyle.xml")
+  sourceSets = [sourceSets.main, sourceSets.test]
+}
+
+
+
+findbugs {
+  //toolVersion = "2.0.1"
+  //sourceSets = [sourceSets.test]
+  ignoreFailures = true
+  reportsDir = file("$project.buildDir/reports/findbugs")
+  effort = "max"
+  reportLevel = "low"
+  //reportLevel = "high"
+  //visitors = ["FindSqlInjection", "SwitchFallthrough"]
+  //omitVisitors = ["FindNonShortCircuit"]
+  //includeFilter = file("$rootProject.projectDir/config/findbugs/includeFilter.xml")
+  //excludeFilter = file("$rootProject.projectDir/config/findbugs/excludeFilter.xml")
+}
+
+
+findbugsMain {
+  reports {
+    xml { enabled = false }
+    html {
+      enabled = true
+      destination "$project.buildDir/reports/findbugs/findbugsMain.html"
+    }
+  }
+}
+
+findbugsTest {
+  reports {
+    xml { enabled = false }
+    html {
+      enabled = true
+      destination "$project.buildDir/reports/findbugs/findbugsTest.html"
+    }
+  }
+}

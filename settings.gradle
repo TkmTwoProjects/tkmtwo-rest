@@ -1,0 +1,13 @@
+
+
+//include 'adoc'
+//include 'avro'
+include 'exhandler'
+include 'web'
+//include 'webapp'
+
+
+rootProject.children.each { project ->
+  project.buildFileName = "${project.name}.gradle"
+}
+
