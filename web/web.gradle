@@ -39,8 +39,8 @@ sourceSets {
 uploadArchives {
   repositories {
     mavenDeployer {
-      repository(url: "file://$buildDir/repo")
-      //repository(url: "file://$rootDir/../tkmtwo-mvn-repo/release")
+      //repository(url: "file://$buildDir/repo")
+      repository(url: "file://$rootDir/../tkmtwo-mvn-repo/release")
     }
   }
 }

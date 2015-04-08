@@ -22,7 +22,7 @@ import com.tkmtwo.timex.convert.IsoDateTimeConverter;
 import com.tkmtwo.timex.convert.IsoPeriodConverter;
 import com.tkmtwo.timex.jackson.JodaModule;
 import cz.jirutka.spring.exhandler.RestHandlerExceptionResolver;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -42,36 +42,34 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.HandlerExceptionResolver;
-import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
+//import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+//import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+//import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
-
 
 /**
  *
  *
  */
-//@Configuration
-//@EnableWebMvc
-//@PropertySources(value = { @PropertySource("classpath:com/tkmtwo/rest/web/web.properties")})
-//@ComponentScan({ "somepackage" })
-public abstract class RestConfig extends WebMvcConfigurerAdapter {
+public abstract class RestConfigurationSupport
+  extends WebMvcConfigurationSupport {
   
-  private LocaleResolver localeResolver = new AcceptHeaderLocaleResolver();
-  
+
+  /* ***
   private List<HttpMessageConverter<?>> messageConverters;
+  */
   
   @Autowired
   private Environment env;
   
   
-  
+  /* ***  
   public RestConfig() throws Exception {
     super();
     getMessageConverters().add(newJacksonMessageConverter());
   }
-  
+  */
   
   
   @Bean
@@ -86,7 +84,7 @@ public abstract class RestConfig extends WebMvcConfigurerAdapter {
     return validator();
   }
   
-  
+  /* ***  
   private List<HttpMessageConverter<?>> getMessageConverters() {
     if (messageConverters == null) {
       messageConverters = new ArrayList<HttpMessageConverter<?>>();
@@ -96,9 +94,10 @@ public abstract class RestConfig extends WebMvcConfigurerAdapter {
   private void setMessageConverters(List<HttpMessageConverter<?>> l) {
     messageConverters = l;
   }
-  
+  */
 
-  private MappingJackson2HttpMessageConverter newJacksonMessageConverter() {
+  @Bean
+  public MappingJackson2HttpMessageConverter jacksonMessageConverter() {
     MappingJackson2HttpMessageConverter jmc = new MappingJackson2HttpMessageConverter();
     jmc.setPrettyPrint(true);
     jmc.getObjectMapper().registerModule(new JodaModule());
@@ -113,10 +112,9 @@ public abstract class RestConfig extends WebMvcConfigurerAdapter {
   }
   
   @Override
-  public void configureMessageConverters(final List<HttpMessageConverter<?>> mcs) {
-    for (HttpMessageConverter hmc : getMessageConverters()) {
-      mcs.add(hmc);
-    }
+  public void configureMessageConverters(final List<HttpMessageConverter<?>> converters) {
+    converters.add(jacksonMessageConverter());
+    addDefaultHttpMessageConverters(converters);
   }
   
 
