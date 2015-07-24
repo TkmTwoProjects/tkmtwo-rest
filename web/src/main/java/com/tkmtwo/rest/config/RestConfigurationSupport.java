@@ -62,6 +62,7 @@ public abstract class RestConfigurationSupport
   
   @Autowired
   private Environment env;
+  protected Environment getEnvironment() { return env; }
   
   
   /* ***  
